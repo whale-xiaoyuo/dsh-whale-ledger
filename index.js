@@ -613,6 +613,31 @@ function 回JSON(res, 码, 体) {
   res.end(文)
 }
 
+// ── 演示数据（只为截图 / 录视频用）────────────────────
+//
+// 三种打开方式，按顺序：apply 配置里 { demo: true }、环境变量 WHALE_LEDGER_DEMO=1、
+// 或者 ${DSH_HOME}/whale-ledger/demo.json 存在（仓库里 docs/demo.json 就是一份）。
+// 演示模式完全不读真实数据，面板右上角会标「演示数据」。
+function 读演示(配置) {
+  if (!(配置 && 配置.demo) && String(process.env.WHALE_LEDGER_DEMO || '') !== '1') {
+    if (!existsSync(join(数据目录, 'demo.json'))) return null
+  }
+  const o = 读JSON(join(数据目录, 'demo.json')) || 读JSON(join(数据目录, 'demo.json.example'))
+  if (!o || typeof o !== 'object') return null
+  // 演示数据里的时间写的是 0，这里按位置摊成「几分钟前」，免得整屏都是「—」
+  const 甲 = Date.now()
+  if (Array.isArray(o.排行)) {
+    o.排行 = o.排行.map((s, i) => ({ ...s, lastAt: 数(s.lastAt) > 0 ? s.lastAt : 甲 - (i * 17 + 6) * 60000 }))
+  }
+  if (Array.isArray(o.会话们)) {
+    o.会话们 = o.会话们.map((c, i) => ({
+      ...c,
+      lastReplyAt: 数(c.lastReplyAt) > 0 ? c.lastReplyAt : 甲 - (i * 53 + 9) * 60000,
+    }))
+  }
+  return { ...o, ok: true, at: 甲, day: o.day || 今日串(), demo: true }
+}
+
 export function apply(ctx, 配置 = {}) {
   // 快照缓存放在 apply 里：每个插件实例一份，
   // 免得同一进程里换了配置（或测试里 repeat apply）还吃到上一份。
@@ -633,6 +658,8 @@ export function apply(ctx, 配置 = {}) {
               径 = decodeURIComponent(径)
             } catch {}
             if (径 === '/dsh-whale-ledger/snapshot') {
+              const 演 = 读演示(配置)
+              if (演) return 回JSON(res, 200, 演)
               const 鲜 = 址.searchParams.get('fresh') === '1'
               if (!鲜 && 快照 && Date.now() - 快照时刻 < 15000) return 回JSON(res, 200, { ...快照, cached: true })
               // 同时来好几个请求时只算一遍
