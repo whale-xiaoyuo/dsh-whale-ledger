@@ -242,6 +242,7 @@ window.__ModuleLoader__.load({
           h(
             'div',
             { style: { ...行, gap: 10 } },
+            数据.demo ? 标签('演示数据', '#f0b45a', 'rgba(240,180,90,0.14)') : null,
             今日.costKind === 'estimate'
               ? h('span', { style: { fontSize: 10.5, opacity: 0.4 } }, '未检测到 SurfCore · 金额为估算')
               : null,
@@ -417,7 +418,7 @@ window.__ModuleLoader__.load({
               : h(
                   'div',
                   { style: { display: 'flex', flexDirection: 'column', gap: 2 } },
-                  ...排行.slice(0, 12).map((s, i) => {
+                  ...排行.slice(0, 8).map((s, i) => {
                     const 本值 = Number(s.cost) || 0
                     return h(
                       'div',
@@ -477,6 +478,13 @@ window.__ModuleLoader__.load({
                       h('span', { style: { fontSize: 9.5, opacity: 0.24, textAlign: 'right' } }, 来源名[s.category] || ''),
                     )
                   }),
+                  排行.length > 8
+                    ? h(
+                        'div',
+                        { style: { marginTop: 6, paddingTop: 7, fontSize: 10, opacity: 0.28, borderTop: '1px solid rgba(140,170,230,0.055)' } },
+                        '还有 ' + (排行.length - 8) + ' 个会话今天花过钱',
+                      )
+                    : null,
                 ),
           ),
 
@@ -549,86 +557,98 @@ window.__ModuleLoader__.load({
             : null,
         ),
 
-        // ④ 服务健康
-        服务.length
+        // ④ 服务健康 + 最近错误（两块并排，一屏能装下）
+        服务.length || 错误.length
           ? h(
               'div',
-              { ...面板, marginBottom: 14 },
-              h(
-                'div',
-                { style: { ...行, justifyContent: 'space-between', marginBottom: 10 } },
-                h('div', { style: { ...小标, marginBottom: 0 } }, '服务健康'),
-                h(
-                  'span',
-                  { style: { fontSize: 10, opacity: 0.28 } },
-                  服务.filter((s) => s.ok).length + ' / ' + 服务.length + ' 在线',
-                ),
-              ),
-              h(
-                'div',
-                { style: { display: 'flex', gap: 10, flexWrap: 'wrap' } },
-                ...服务.map((s) =>
-                  h(
+              {
+                style: {
+                  display: 'grid',
+                  gridTemplateColumns: 服务.length && 错误.length ? 'minmax(0, 1fr) minmax(0, 1.15fr)' : 'minmax(0, 1fr)',
+                  gap: 14,
+                  alignItems: 'start',
+                },
+              },
+              服务.length
+                ? h(
                     'div',
-                    {
-                      key: s.name,
-                      style: {
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 8,
-                        padding: '7px 11px',
-                        borderRadius: 9,
-                        background: s.ok ? 'rgba(72,214,164,0.06)' : 'rgba(255,120,100,0.06)',
-                        border: '1px solid ' + (s.ok ? 'rgba(72,214,164,0.16)' : 'rgba(255,120,100,0.18)'),
-                      },
-                    },
-                    h('i', {
-                      style: {
-                        width: 6,
-                        height: 6,
-                        borderRadius: 6,
-                        background: s.ok ? '#48d6a4' : '#ff7f6a',
-                        boxShadow: '0 0 8px ' + (s.ok ? '#48d6a4' : '#ff7f6a'),
-                      },
-                    }),
-                    h('span', { style: { fontSize: 11.5, opacity: 0.85 } }, s.name),
-                    h('span', { style: { fontSize: 10, opacity: 0.3, ...数式 } }, s.ok ? s.ms + 'ms' : '不通'),
-                  ),
-                ),
-              ),
-            )
-          : null,
+                    { ...面板 },
+                    h(
+                      'div',
+                      { style: { ...行, justifyContent: 'space-between', marginBottom: 10 } },
+                      h('div', { style: { ...小标, marginBottom: 0 } }, '服务健康'),
+                      h(
+                        'span',
+                        { style: { fontSize: 10, opacity: 0.28 } },
+                        服务.filter((s) => s.ok).length + ' / ' + 服务.length + ' 在线',
+                      ),
+                    ),
+                    h(
+                      'div',
+                      { style: { display: 'flex', gap: 9, flexWrap: 'wrap' } },
+                      ...服务.map((s) =>
+                        h(
+                          'div',
+                          {
+                            key: s.name,
+                            style: {
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 8,
+                              padding: '6px 10px',
+                              borderRadius: 9,
+                              background: s.ok ? 'rgba(72,214,164,0.06)' : 'rgba(255,120,100,0.06)',
+                              border: '1px solid ' + (s.ok ? 'rgba(72,214,164,0.16)' : 'rgba(255,120,100,0.18)'),
+                            },
+                          },
+                          h('i', {
+                            style: {
+                              width: 6,
+                              height: 6,
+                              borderRadius: 6,
+                              background: s.ok ? '#48d6a4' : '#ff7f6a',
+                              boxShadow: '0 0 8px ' + (s.ok ? '#48d6a4' : '#ff7f6a'),
+                            },
+                          }),
+                          h('span', { style: { fontSize: 11.5, opacity: 0.85 } }, s.name),
+                          h('span', { style: { fontSize: 10, opacity: 0.3, ...数式 } }, s.ok ? s.ms + 'ms' : '不通'),
+                        ),
+                      ),
+                    ),
+                  )
+                : null,
 
-        // 最近错误
-        错误.length
-          ? h(
-              'div',
-              { ...面板 },
-              h('div', { style: { ...小标 } }, '最近三条错误'),
-              h(
-                'div',
-                { style: { display: 'flex', flexDirection: 'column', gap: 6 } },
-                ...错误.map((e, i) =>
-                  h(
+              错误.length
+                ? h(
                     'div',
-                    {
-                      key: i,
-                      style: {
-                        fontSize: 11,
-                        lineHeight: 1.7,
-                        color: 'rgba(255,178,162,0.82)',
-                        background: 'rgba(255,120,100,0.045)',
-                        border: '1px solid rgba(255,120,100,0.10)',
-                        borderRadius: 8,
-                        padding: '7px 10px',
-                        wordBreak: 'break-all',
-                        ...数式,
-                      },
-                    },
-                    e.text,
-                  ),
-                ),
-              ),
+                    { ...面板 },
+                    h('div', { style: { ...小标 } }, '最近三条错误'),
+                    h(
+                      'div',
+                      { style: { display: 'flex', flexDirection: 'column', gap: 6 } },
+                      ...错误.map((e, i) =>
+                        h(
+                          'div',
+                          {
+                            key: i,
+                            style: {
+                              fontSize: 10.5,
+                              lineHeight: 1.65,
+                              color: 'rgba(255,178,162,0.82)',
+                              background: 'rgba(255,120,100,0.045)',
+                              border: '1px solid rgba(255,120,100,0.10)',
+                              borderRadius: 8,
+                              padding: '6px 9px',
+                              wordBreak: 'break-all',
+                              ...数式,
+                            },
+                          },
+                          e.text,
+                        ),
+                      ),
+                    ),
+                  )
+                : null,
             )
           : null,
 
