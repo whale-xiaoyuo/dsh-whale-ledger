@@ -1,0 +1,51 @@
+{
+  "_说明": "演示数据。放进 $DSH_HOME/whale-ledger/demo.json（或设 WHALE_LEDGER_DEMO=1）后，面板只显示这份，不读真实会话和账本。名字、金额、群都是编的。",
+  "ok": true,
+  "day": "2026-11-25",
+  "demo": true,
+  "sources": {
+    "dsh": true,
+    "surfcore": { "on": true, "usage": true, "social": true, "log": true, "core": "" },
+    "health": true
+  },
+  "今日": {
+    "cost": 12.34,
+    "tokens": 88765432,
+    "costKind": "surfcore",
+    "sessions": 8,
+    "turns": 329,
+    "bySource": [
+      { "key": "qq", "cost": 6.2, "tokens": 52100000 },
+      { "key": "bili", "cost": 2.34, "tokens": 18300000 },
+      { "key": "other", "cost": 3.8, "tokens": 18365432 }
+    ],
+    "limit": { "daily": 20, "left": 7.66, "perGroup": 2 }
+  },
+  "排行": [
+    { "id": "demo-1", "title": "群 摸鱼研究所", "category": "qq", "cost": 4.12, "tokens": 28400000, "turns": 96, "model": "deepseek-flash", "lastAt": 0, "preset": "qq-chat" },
+    { "id": "demo-2", "title": "私聊 · 阿澈", "category": "qq", "cost": 2.08, "tokens": 15700000, "turns": 41, "model": "deepseek-flash", "lastAt": 0, "preset": "qq-chat" },
+    { "id": "demo-3", "title": "B 站 · 视频笔记", "category": "bili", "cost": 2.01, "tokens": 16200000, "turns": 58, "model": "deepseek-flash", "lastAt": 0, "preset": "bili" },
+    { "id": "demo-4", "title": "写周报", "category": "other", "cost": 1.46, "tokens": 9800000, "turns": 22, "model": "deepseek-flash", "lastAt": 0, "preset": "standard" },
+    { "id": "demo-5", "title": "群 深夜代码互助", "category": "qq", "cost": 1.32, "tokens": 8100000, "turns": 63, "model": "deepseek-flash", "lastAt": 0, "preset": "qq-chat" },
+    { "id": "demo-6", "title": "群 桌游组", "category": "qq", "cost": 0.78, "tokens": 5200000, "turns": 30, "model": "deepseek-flash", "lastAt": 0, "preset": "qq-chat" },
+    { "id": "demo-7", "title": "整理会议纪要", "category": "other", "cost": 0.41, "tokens": 3300000, "turns": 12, "model": "deepseek-flash", "lastAt": 0, "preset": "standard" },
+    { "id": "demo-8", "title": "群 猫猫图鉴", "category": "qq", "cost": 0.16, "tokens": 1900000, "turns": 7, "model": "deepseek-flash", "lastAt": 0, "preset": "qq-chat" }
+  ],
+  "会话们": [
+    { "key": "private:100000001", "label": "私聊 · 阿澈", "state": "active", "mode": "active", "infinite": true, "sleepUntil": 0, "suspendedUntil": 0, "lastReplyAt": 0, "lastIncomingAt": 0, "unread": 0, "tokens": 15700000, "turns": 41, "wakeCount": 96 },
+    { "key": "group:200000002", "label": "群 摸鱼研究所", "state": "diving", "mode": "diving", "infinite": true, "sleepUntil": 0, "suspendedUntil": 0, "lastReplyAt": 0, "lastIncomingAt": 0, "unread": 3, "tokens": 28400000, "turns": 96, "wakeCount": 214 },
+    { "key": "group:300000003", "label": "群 深夜代码互助", "state": "diving", "mode": "diving", "infinite": true, "sleepUntil": 0, "suspendedUntil": 0, "lastReplyAt": 0, "lastIncomingAt": 0, "unread": 1, "tokens": 8100000, "turns": 63, "wakeCount": 121 },
+    { "key": "group:400000004", "label": "群 桌游组", "state": "sleeping", "mode": "diving", "infinite": false, "sleepUntil": 0, "suspendedUntil": 0, "lastReplyAt": 0, "lastIncomingAt": 0, "unread": 0, "tokens": 5200000, "turns": 30, "wakeCount": 44 },
+    { "key": "bili:500000005", "label": "B 站 · 视频笔记", "state": "diving", "mode": "diving", "infinite": true, "sleepUntil": 0, "suspendedUntil": 0, "lastReplyAt": 0, "lastIncomingAt": 0, "unread": 0, "tokens": 16200000, "turns": 58, "wakeCount": 72 },
+    { "key": "group:600000006", "label": "群 猫猫图鉴", "state": "suspended", "mode": "diving", "infinite": true, "sleepUntil": 0, "suspendedUntil": 0, "lastReplyAt": 0, "lastIncomingAt": 0, "unread": 0, "tokens": 1900000, "turns": 7, "wakeCount": 12 }
+  ],
+  "服务": [
+    { "name": "SnowLuma", "target": "http://127.0.0.1:3000", "ok": true, "ms": 12 },
+    { "name": "语音服务", "target": "http://127.0.0.1:8767", "ok": true, "ms": 3 },
+    { "name": "SurfCore 控制台", "target": ":3100", "ok": true, "ms": 1 }
+  ],
+  "错误": [
+    { "text": "16:41:52 [bridge] 工具统一发送 失败 0/1 条：连接超时（ws 已断开，正在重连）" },
+    { "text": "14:22:07 [bridge] token-guard：今日额度已用完，跳过唤醒（连续第 3 次）" }
+  ]
+}
