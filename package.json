@@ -1,0 +1,55 @@
+{
+  "name": "dsh-whale-ledger",
+  "version": "0.1.0",
+  "description": "鲸账本：DSH 的花费与健康面板 —— 今天花了多少、按会话分账、谁还醒着、服务活没活。数据源可插拔，没装就是没有，不报错。",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22",
+    "dsh": ">=0.2.1-rc.2"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh-plugin",
+    "token-usage",
+    "cost-tracking",
+    "dashboard",
+    "surfcore"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yuuyuko-uu/dsh-whale-ledger.git"
+  },
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "README.md",
+    "README.en.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "smoke": "node test/smoke.mjs"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "slots"
+      ],
+      "external": [
+        "react"
+      ]
+    }
+  }
+}
