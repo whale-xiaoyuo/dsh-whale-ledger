@@ -1,5 +1,7 @@
 # 鲸账本 · dsh-whale-ledger
 
+![鲸账本](docs/cover.png)
+
 给 [DeepSeek Harness](https://github.com/deepseek-ai/dsh) 的一块面板：**今天花多少、钱花在哪个会话、谁还醒着、服务活没活。**
 
 点侧栏那头小鲸鱼就打开。右上角「✕ 回会话」、或者直接按 Esc，就退回当前会话（不换会话、不丢草稿）。
