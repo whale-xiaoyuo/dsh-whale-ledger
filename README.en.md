@@ -8,6 +8,8 @@ Click the little whale in the sidebar. That's it.
 
 ## What it shows
 
+![The ledger panel](docs/shot-1-ledger.png)
+
 | Block | Content | Needs |
 |---|---|---|
 | **Today** | Money spent, tokens, session count; remaining budget when a limit exists | Always: DSH's own token stats |
@@ -15,6 +17,15 @@ Click the little whale in the sidebar. That's it.
 | **Who's awake** | Each group / DM: active, diving, sleeping or suspended (+ unread, last reply) | Optional: SurfCore |
 | **Service health** | SnowLuma, voice service, console port — reachable, and how fast | Optional: addresses from SurfCore config |
 | **Last three errors** | Recent error lines from `bridge.log` | Optional: SurfCore |
+
+<table>
+<tr>
+<td width="58%"><img src="docs/shot-2-today.png" alt="Today and ranking"><br><sub>Today + ranking + who's awake: who spent what, how many turns, how many tokens</sub></td>
+<td width="42%"><img src="docs/shot-3-health.png" alt="Health and recent errors"><br><sub>Service health + last three errors</sub></td>
+</tr>
+</table>
+
+> The screenshots use the demo data in `docs/demo.json` — groups, names and amounts are made up.
 
 ## Install
 
@@ -61,6 +72,8 @@ node --check index.js
 node --check client.js
 node test/smoke.mjs     # mounts the host half on a fake ctx, asks for one snapshot
 ```
+
+To look at the panel without touching real data (screenshots, demo videos), copy `docs/demo.json` to `$DSH_HOME/whale-ledger/demo.json`: the panel then shows only that data and marks itself "演示数据". Delete the file to go back immediately, no restart. `WHALE_LEDGER_DEMO=1` works too (takes effect on restart).
 
 ## Layout
 
